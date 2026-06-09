@@ -42,7 +42,7 @@ pip install -r requirements.txt
 >```
 
 ## Testing
-* Download the checkpoint from https://pan.baidu.com/s/1P41BeTtxTebJP0OHXHXUSw?pwd=iana
+* Download the checkpoint from https://pan.baidu.com/s/1_X6vo0KSg5oz0yd-duM4ow?pwd=p9ma
 
 > ### 1. JAAD_beh
 > ```bash
