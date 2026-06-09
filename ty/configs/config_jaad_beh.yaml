@@ -1,0 +1,43 @@
+model_opts:
+  model: Static
+# SingleRNN, StackedRNN, MultiRNN, HierarchicalRNN, SFRNN, C3D, I3D, Static, ConvLSTM, ATGC, PCPA
+  obs_input_type: [scene_context]
+#  obs_input_type: [speed, box, pose, local_context, panoptic_seg, scene_context]
+  # [local_box, local_surround, local_context, pose, box, speed, scene_context]
+  enlarge_ratio: 1.5 # enlarging the original bounding box to capture local spatial context
+  obs_length: 16 # observation length
+  time_to_event: [30, 60]  # 30, 60, [30,60]
+  overlap: 0.8 # set to 0.6 for pie and 0.8 for jaad
+  data_augmentation: False # set to True to resample data so that the number of samples in each class is the same
+  apply_class_weights: True # apply class weights to offset class imbalance
+  dataset: jaad
+  normalize_boxes: False
+  generator: False # using generator is slower but uses less memory, otherwise up to 64GB RAM may be required to run some of the models
+  fusion_point: early # only for Two-Stream network
+  fusion_method: sum # only for Two-Stream network
+data_opts:
+  fstride: 1
+  sample_type: beh  # beh or all only when model_opts/dataset is set to jaad
+  subset: default
+  data_split_type: default  # kfold, random, default
+  seq_type: crossing
+  min_track_size: 16 # tracks shorter than this length will be discarded
+exp_opts:
+  datasets: [pie, jaad_all, jaad_beh]
+  batch_size: [8, 8, 8]
+  epochs: [80, 20, 20]
+  lr: [1.0e-06, 5.0e-05, 5.0e-05]
+net_opts:
+  num_hidden_units: 256
+  global_pooling: avg
+  regularizer_val: 0.0001
+  cell_type: gru
+  backbone: c3d
+train_args:
+  batchsize: 8
+  epoch: 30
+  lr: 5.0e-05
+  hidden_size: 3584
+  device: cuda
+  weight_decay: 0.1
+  accumulate_steps: 2
